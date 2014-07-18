@@ -28,7 +28,11 @@ class MessageServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$app = $this->app;
+
+		$app['message'] = $app->share(function ($app) {
+			return new MessageManager;
+		});
 	}
 
 	/**
@@ -38,7 +42,7 @@ class MessageServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('message');
 	}
 
 }

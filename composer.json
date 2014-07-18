@@ -1,6 +1,8 @@
 {
     "name": "valllabh/message",
-    "description": "",
+    "description": "Laravel Package for managing messages",
+    "keywords": ["laravel", "messaging", "alerts", "MessageBag"],
+    "version": "0.1",
     "authors": [
         {
             "name": "Vallabh Joshi",
