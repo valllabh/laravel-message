@@ -16,7 +16,6 @@ class MessageManager {
 	public function __construct(){
 		$this->messages = array();
 		$this->types = Config::get('message::types');
-		$this->types = Config::get('message::types');
 		$this->default_group = Config::get('message::default_group');
 
 		$this->var_temp = 'tmp';
@@ -29,9 +28,10 @@ class MessageManager {
 	}
 
 	public function __call($name, $arguments) {
+
 		$type = $this->prepareMessageType( $name );
 
-		if( $this->isValidMessageType( $type ) ) {
+		if( $type ) {
 			return $this->message( [
 				'type' => $type,
 				'messages' => isset( $arguments[0] ) ? $arguments[0] : NULL,
@@ -43,23 +43,8 @@ class MessageManager {
 		throw new BadMethodCallException("Call to undefined method ".__CLASS__."::$name()");
 	}
 
-	private function isValidMessageType( $type ){
-		if( isset( $this->types[ $type ] ) ){
-			return true;
-		}
-		$type = $this->prepareMessageType( $type );
-		return isset( $this->types[ $type ] );
-	}
-
 	private function prepareMessageType( $type ){
-		$return = false;
-		foreach( $this->types as $t => $alias ){
-			if( in_array( $type, $alias ) ){
-				$return = $t;
-				break;
-			}
-		}
-		return $return;
+		return array_key_exists( $type, $this->types ) ? $type : false;
 	}
 
 	private function restoreFlashMessages(){
@@ -107,13 +92,18 @@ class MessageManager {
 		return $this->default_group;
 	}
 
+	public function getClassesFor( $type ){
+		$type = $this->prepareMessageType( $type );
+		return $type ? $this->types[ $type ]['class'] : '';
+	}
+
 	public function get( $type, $group = NULL, $store = NULL ){
 
 		$type = $this->prepareMessageType( $type );
 		$group = $group ? $group : $this->default_group;
 		$store = $store ? $store : $this->var_temp;
 
-		if( $this->isValidMessageType( $type ) && isset( $this->messages[ $store ] ) && isset( $this->messages[ $store ][ $group ] ) && isset( $this->messages[ $store ][ $group ][ $type ] ) ){
+		if( $type && isset( $this->messages[ $store ] ) && isset( $this->messages[ $store ][ $group ] ) && isset( $this->messages[ $store ][ $group ][ $type ] ) ){
 
 			return $this->messages[ $store ][ $group ][ $type ];
 

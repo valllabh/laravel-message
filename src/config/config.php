@@ -15,10 +15,10 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 	'types' => [
-		'success' => array( 'success', 'successful' ),
-		'danger' => array( 'danger', 'error', 'errors' ),
-		'warning' => array( 'warn', 'warning' ),
-		'info' => array( 'info', 'information' )
-	],
+		'success' => array( 'class' => 'alert-success' ),
+		'error' => array( 'class' => 'alert-danger' ),
+		'warning' => array( 'class' => 'alert-warning' ),
+		'info' => array( 'class' => 'alert-info' )
+	]
 
 );
