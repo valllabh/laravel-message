@@ -16,8 +16,8 @@ return array(
 	*/
 	'types' => [
 		'success' => array( 'success', 'successful' ),
-		'error' => array( 'error', 'errors' ),
-		'warn' => array( 'warn', 'warning' ),
+		'danger' => array( 'danger', 'error', 'errors' ),
+		'warning' => array( 'warn', 'warning' ),
 		'info' => array( 'info', 'information' )
 	],
 

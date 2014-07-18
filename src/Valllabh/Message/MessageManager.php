@@ -16,6 +16,7 @@ class MessageManager {
 	public function __construct(){
 		$this->messages = array();
 		$this->types = Config::get('message::types');
+		$this->types = Config::get('message::types');
 		$this->default_group = Config::get('message::default_group');
 
 		$this->var_temp = 'tmp';
@@ -34,8 +35,8 @@ class MessageManager {
 			return $this->message( [
 				'type' => $type,
 				'messages' => isset( $arguments[0] ) ? $arguments[0] : NULL,
-				'flash' => isset( $arguments[1] ) ? $arguments[1] : false,
-				'group' => isset( $arguments[2] ) ? $arguments[2] : $this->default_group,
+				'group' => isset( $arguments[1] ) ? $arguments[1] : $this->default_group,
+				'flash' => isset( $arguments[2] ) ? $arguments[2] : false
 			] );
 		}
 
@@ -91,9 +92,19 @@ class MessageManager {
 			$this->messages[ $store ][ $group ][ $type ] = new MessageBag();
 		}
 
-		$this->messages[ $store ][ $group ][ $type ]->merge( $messages );
+		foreach( $messages as $key => $message ){
+			$this->messages[ $store ][ $group ][ $type ]->add( $key, $message );
+		}
 
 		$this->storeFlashMessages();
+	}
+
+	public function getTypes(){
+		return $this->types;
+	}
+
+	public function getDefaultGroup(){
+		return $this->default_group;
 	}
 
 	public function get( $type, $group = NULL, $store = NULL ){
